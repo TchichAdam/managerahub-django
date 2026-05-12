@@ -1,0 +1,44 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-body p-4">
+                <h3 class="mb-4">Publier une nouvelle offre</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Titre du poste</label>
+                        <input type="text" class="form-control" name="titre" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Domaine</label>
+                            <input type="text" class="form-control" name="domaine" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Ville</label>
+                            <input type="text" class="form-control" name="ville" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Type de contrat</label>
+                            <select class="form-select" name="type_contrat">
+                                <option value="CDI">CDI</option>
+                                <option value="CDD">CDD</option>
+                                <option value="Stage">Stage</option>
+                                <option value="Alternance">Alternance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Description détaillée</label>
+                        <textarea class="form-control" name="description" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Publier l'offre</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

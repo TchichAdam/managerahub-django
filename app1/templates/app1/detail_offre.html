@@ -1,0 +1,65 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row">
+    <!-- Colonne Principale : Détails de l'offre -->
+    <div class="col-md-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body p-5">
+                <div class="mb-4">
+                    <span class="badge bg-secondary mb-2">{{ offre.domaine }}</span>
+                    <h1 class="fw-bold">{{ offre.titre }}</h1>
+                    <p class="lead text-muted">{{ offre.entreprise.nom_entreprise }} - {{ offre.ville }}</p>
+                </div>
+                
+                <hr class="mb-4">
+                
+                <h4 class="fw-bold mb-3">Description du poste</h4>
+                <p style="white-space: pre-wrap;">{{ offre.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Colonne Latérale : Résumé et Action -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 bg-light">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Résumé de l'offre</h5>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><strong>Contrat :</strong> {{ offre.type_contrat }}</li>
+                    <li class="mb-2"><strong>Lieu :</strong> {{ offre.ville }}</li>
+                    <li class="mb-2"><strong>Publiée le :</strong> {{ offre.date_publication|date:"d/m/Y" }}</li>
+                </ul>
+
+                {% if utilisateur %}
+                    {% if utilisateur.role == 'candidat' %}
+                        {% if deja_postule %}
+                            <div class="alert alert-success text-center" role="alert">
+                                Vous avez déjà postulé à cette offre.
+                            </div>
+                        {% else %}
+                            <a href="{% url 'postuler' offre.id %}" class="btn btn-primary w-100 btn-lg">Postuler maintenant</a>
+                        {% endif %}
+                    {% elif utilisateur.role == 'entreprise' %}
+                        {% if offre.entreprise.utilisateur_id == utilisateur.id %}
+                            <a href="{% url 'modifier_offre' offre.id %}" class="btn btn-warning w-100 mb-2">Modifier l'offre</a>
+                            <a href="{% url 'candidatures_offre' offre.id %}" class="btn btn-info w-100 text-white">Voir les candidatures</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning text-center" role="alert">
+                        <a href="{% url 'connexion' %}" class="alert-link">Connectez-vous</a> pour postuler à cette offre.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">À propos de l'entreprise</h5>
+                <p class="text-muted">{{ offre.entreprise.description|default:"Aucune description disponible pour cette entreprise." }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

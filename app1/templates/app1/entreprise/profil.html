@@ -1,0 +1,48 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Profil entreprise</h2>
+                <p class="text-muted mb-0">Gardez vos informations a jour pour inspirer confiance aux candidats.</p>
+            </div>
+            <a href="{% url 'entreprise_dashboard' %}" class="btn btn-outline-secondary">Retour</a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nom de l'entreprise</label>
+                            <input type="text" name="nom_entreprise" class="form-control" value="{{ entreprise.nom_entreprise }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ville</label>
+                            <input type="text" name="ville" class="form-control" value="{{ entreprise.ville|default:'' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Telephone</label>
+                            <input type="text" name="telephone" class="form-control" value="{{ entreprise.telephone|default:'' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" value="{{ utilisateur.email }}" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="4">{{ entreprise.description|default:'' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary">Mettre a jour</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

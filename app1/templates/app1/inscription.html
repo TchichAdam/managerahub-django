@@ -1,0 +1,92 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm mt-4 mb-5">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">Créer un compte</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Informations de connexion de base -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Adresse Email *</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Mot de passe *</label>
+                            <input type="password" class="form-control" name="mot_de_passe" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Je suis un(e) :</label>
+                        <select class="form-select" id="role" name="role" onchange="toggleFields()">
+                            <option value="candidat" {% if role == 'candidat' %}selected{% endif %}>Candidat (recherche d'emploi)</option>
+                            <option value="entreprise" {% if role == 'entreprise' %}selected{% endif %}>Entreprise (recruteur)</option>
+                        </select>
+                    </div>
+
+                    <!-- Champs spécifiques au Candidat -->
+                    <div id="champs_candidat">
+                        <h5 class="text-muted border-bottom pb-2 mb-3">Profil Candidat</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom</label>
+                                <input type="text" class="form-control" name="nom">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" class="form-control" name="prenom">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" name="telephone">
+                        </div>
+                    </div>
+
+                    <!-- Champs spécifiques à l'Entreprise -->
+                    <div id="champs_entreprise" style="display: none;">
+                        <h5 class="text-muted border-bottom pb-2 mb-3">Profil Entreprise</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom de l'entreprise</label>
+                                <input type="text" class="form-control" name="nom_entreprise">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Ville</label>
+                                <input type="text" class="form-control" name="ville">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" class="form-control" name="telephone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description de l'entreprise</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success">Valider l'inscription</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleFields() {
+        var role = document.getElementById('role').value;
+        document.getElementById('champs_candidat').style.display = (role === 'candidat') ? 'block' : 'none';
+        document.getElementById('champs_entreprise').style.display = (role === 'entreprise') ? 'block' : 'none';
+    }
+    // Lancer au chargement de la page pour afficher le bon bloc
+    window.onload = toggleFields;
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm mt-4 mb-5">
+            <div class="card-body p-5">
+                <h2 class="mb-4">Postuler à l'offre : {{ offre.titre }}</h2>
+                <h6 class="text-muted mb-4 border-bottom pb-3">Entreprise : {{ offre.entreprise.nom_entreprise }} | {{ offre.ville }}</h6>
+
+                <!-- Attention au enctype="multipart/form-data" indispensable pour l'envoi de fichiers -->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="cv" class="form-label fw-bold">Votre CV (PDF ou Word) *</label>
+                        <input class="form-control" type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" {% if not candidat.cv %}required{% endif %}>
+                        {% if candidat.cv %}
+                            <div class="form-text text-success mt-2">
+                                Vous avez déjà un CV enregistré. Vous pouvez en uploader un nouveau pour le remplacer.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="lettre_motivation" class="form-label fw-bold">Lettre de motivation (Optionnel)</label>
+                        <input class="form-control" type="file" id="lettre_motivation" name="lettre_motivation" accept=".pdf,.doc,.docx">
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a href="{% url 'detail_offre' offre.id %}" class="btn btn-outline-secondary">Retour à l'offre</a>
+                        <button type="submit" class="btn btn-primary px-4">Envoyer ma candidature</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

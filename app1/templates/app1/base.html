@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Candidats</title>
+    <!-- Intégration de Bootstrap pour le design -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap');
+    
+    body {
+        background-color: #FAF9F6;
+        font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3, h4, h5, .navbar-brand {
+        font-family: 'Poppins', sans-serif;
+        color: #4F0C28; /* Dark Plum du cahier des charges */
+    }
+    .btn-primary {
+        background-color: #4F0C28;
+        border-color: #4F0C28;
+    }
+    .btn-primary:hover {
+        background-color: #3a091d;
+    }
+    .badge-periwinkle {
+        background-color: #C5D2F8; /* Periwinkle du cahier des charges */
+        color: #4F0C28;
+        font-weight: bold;
+    }
+    .navbar {
+        background-color: #4F0C28 !important;
+    }
+</style>
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'accueil' %}">JobBoard</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'liste_offres' %}">Offres d'emploi</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if utilisateur %}
+                        <li class="nav-item">
+                            <span class="nav-link text-light">Bonjour, {{ utilisateur.email }}</span>
+                        </li>
+                        <li class="nav-item">
+                            {% if utilisateur.role == 'candidat' %}
+                                <a class="nav-link" href="{% url 'candidat_dashboard' %}">Mon Espace</a>
+                            {% elif utilisateur.role == 'entreprise' %}
+                                <a class="nav-link" href="{% url 'entreprise_dashboard' %}">Mon Espace</a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="{% url 'deconnexion' %}">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'connexion' %}">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'inscription' %}">Inscription</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Affichage des messages flash (succès, erreur) -->
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- C'est ici que le contenu des autres pages sera injecté -->
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold">Tableau de bord de {{ candidat.prenom }} {{ candidat.nom }}</h2>
+        <p class="text-muted">Gérez vos candidatures et suivez vos statistiques depuis cet espace.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'liste_offres' %}" class="btn btn-primary">Rechercher des offres</a>
+    </div>
+</div>
+
+<!-- Statistiques rapides -->
+<div class="row mb-5 text-center">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 border-bottom border-warning border-4">
+            <div class="card-body">
+                <h3 class="text-warning fw-bold">{{ nb_en_attente }}</h3>
+                <p class="mb-0 text-muted">En attente</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 border-bottom border-success border-4">
+            <div class="card-body">
+                <h3 class="text-success fw-bold">{{ nb_accepte }}</h3>
+                <p class="mb-0 text-muted">Acceptées</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 border-bottom border-danger border-4">
+            <div class="card-body">
+                <h3 class="text-danger fw-bold">{{ nb_refuse }}</h3>
+                <p class="mb-0 text-muted">Refusées</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Liste des candidatures -->
+<h4 class="mb-3">Mes candidatures récentes</h4>
+<div class="card shadow-sm border-0">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Poste</th>
+                    <th>Entreprise</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidature in candidatures %}
+                <tr>
+                    <td class="fw-bold">{{ candidature.offre.titre }}</td>
+                    <td>{{ candidature.offre.entreprise.nom_entreprise }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if candidature.statut == 'En attente' %}bg-warning
+                            {% elif candidature.statut == 'Accepté' %}bg-success
+                            {% elif candidature.statut == 'Refusé' %}bg-danger
+                            {% else %}bg-secondary{% endif %}">
+                            {{ candidature.statut }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center py-4 text-muted">
+                        Vous n'avez pas encore postulé à des offres.<br>
+                        <a href="{% url 'liste_offres' %}" class="btn btn-sm btn-outline-primary mt-2">Voir les offres disponibles</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

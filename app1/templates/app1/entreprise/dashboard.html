@@ -1,0 +1,51 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2>Espace Recruteur : {{ entreprise.nom_entreprise }}</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'creer_offre' %}" class="btn btn-primary">+ Publier une offre</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="mb-3">Vos offres publiées</h4>
+        <div class="table-responsive bg-white shadow-sm rounded">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Titre du poste</th>
+                        <th>Type de contrat</th>
+                        <th>Candidatures</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for offre in offres %}
+                    <tr>
+                        <td class="fw-bold">{{ offre.titre }}</td>
+                        <td><span class="badge badge-periwinkle">{{ offre.type_contrat }}</span></td>
+                        <td>
+                            <a href="{% url 'candidatures_offre' offre.id %}" class="text-decoration-none fw-bold">
+                                Voir les candidatures
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'modifier_offre' offre.id %}"
+                                class="btn btn-sm btn-outline-secondary">Modifier</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4">Vous n'avez publié aucune offre.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

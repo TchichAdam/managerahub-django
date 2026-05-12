@@ -1,0 +1,41 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Entreprises</h2>
+        <p class="text-muted mb-0">Entreprises presentes sur la plateforme.</p>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Entreprise</th>
+                    <th>Ville</th>
+                    <th>Telephone</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entreprise in entreprises %}
+                <tr>
+                    <td>{{ entreprise.id }}</td>
+                    <td class="fw-bold">{{ entreprise.nom_entreprise }}</td>
+                    <td>{{ entreprise.ville|default:'-' }}</td>
+                    <td>{{ entreprise.telephone|default:'-' }}</td>
+                    <td>{{ entreprise.utilisateur.email }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-muted">Aucune entreprise trouvee.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

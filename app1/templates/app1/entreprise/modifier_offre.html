@@ -1,0 +1,49 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Modifier une offre</h2>
+                <p class="text-muted mb-0">Ajustez les informations de l'offre avant sa republication.</p>
+            </div>
+            <a href="{% url 'entreprise_dashboard' %}" class="btn btn-outline-secondary">Retour</a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Titre</label>
+                            <input type="text" name="titre" class="form-control" value="{{ offre.titre }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Type de contrat</label>
+                            <input type="text" name="type_contrat" class="form-control" value="{{ offre.type_contrat|default:'' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Domaine</label>
+                            <input type="text" name="domaine" class="form-control" value="{{ offre.domaine|default:'' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ville</label>
+                            <input type="text" name="ville" class="form-control" value="{{ offre.ville|default:'' }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="6" required>{{ offre.description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="{% url 'supprimer_offre' offre.id %}" class="btn btn-outline-danger">Supprimer cette offre</a>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

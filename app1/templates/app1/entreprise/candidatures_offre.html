@@ -1,0 +1,41 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<h3 class="mb-4">Candidatures pour : {{ offre.titre }}</h3>
+
+<div class="row">
+    {% for candidature in candidatures %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">{{ candidature.candidat.prenom }} {{ candidature.candidat.nom }}</h5>
+                <p class="text-muted mb-2"><i class="bi bi-telephone"></i> {{ candidature.candidat.telephone }}</p>
+                
+                <div class="mb-3">
+                    {% if candidature.candidat.cv %}
+                        <a href="/media/{{ candidature.candidat.cv }}" target="_blank" class="btn btn-sm btn-outline-primary">Voir le CV</a>
+                    {% endif %}
+                </div>
+
+                <hr>
+                
+                <form action="{% url 'changer_statut_candidature' candidature.id %}" method="POST" class="d-flex align-items-center">
+                    {% csrf_token %}
+                    <select name="statut" class="form-select form-select-sm me-2">
+                        <option value="En attente" {% if candidature.statut == 'En attente' %}selected{% endif %}>En attente</option>
+                        <option value="Convoqué" {% if candidature.statut == 'Convoqué' %}selected{% endif %}>Convoquer à un entretien</option>
+                        <option value="Accepté" {% if candidature.statut == 'Accepté' %}selected{% endif %}>Accepter</option>
+                        <option value="Refusé" {% if candidature.statut == 'Refusé' %}selected{% endif %}>Refuser</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary">Mettre à jour</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted py-5">
+        Aucune candidature reçue pour le moment.
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

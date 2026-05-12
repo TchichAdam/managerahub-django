@@ -1,0 +1,43 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Candidatures</h2>
+        <p class="text-muted mb-0">Suivi global des candidatures envoyees.</p>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Candidat</th>
+                    <th>Offre</th>
+                    <th>Entreprise</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidature in candidatures %}
+                <tr>
+                    <td>{{ candidature.id }}</td>
+                    <td class="fw-bold">{{ candidature.candidat.prenom }} {{ candidature.candidat.nom }}</td>
+                    <td>{{ candidature.offre.titre }}</td>
+                    <td>{{ candidature.offre.entreprise.nom_entreprise }}</td>
+                    <td>{{ candidature.statut }}</td>
+                    <td>{{ candidature.date_postulation|date:"d/m/Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">Aucune candidature trouvee.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

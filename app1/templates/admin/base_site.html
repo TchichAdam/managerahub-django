@@ -1,0 +1,364 @@
+{% extends "admin/base_site.html" %}
+
+{% block dark-mode-vars %}
+<style>
+    html[data-theme="dark"],
+    html[data-theme="light"],
+    :root {
+        color-scheme: light;
+        --primary: #4F0C28;
+        --secondary: #C5D2F8;
+        --accent: #3a091d;
+        --body-bg: #FAF9F6;
+        --darkened-bg: #f2e8ed;
+        --body-fg: #2f2430;
+        --header-bg: #4F0C28;
+        --header-color: #ffffff;
+        --breadcrumbs-bg: #f2e8ed;
+        --breadcrumbs-fg: #4F0C28;
+        --breadcrumbs-link-fg: #4F0C28;
+        --link-fg: #4F0C28;
+        --link-hover-color: #3a091d;
+        --link-selected-fg: #3a091d;
+        --hairline-color: #e6dbe1;
+        --border-color: #eadde4;
+        --error-fg: #b3261e;
+        --message-success-bg: #eef7f1;
+        --message-warning-bg: #fff7e8;
+        --message-error-bg: #fdecec;
+        --button-bg: #4F0C28;
+        --button-fg: #ffffff;
+        --button-hover-bg: #3a091d;
+        --default-button-bg: #4F0C28;
+        --default-button-hover-bg: #3a091d;
+        --close-button-bg: #7c5a67;
+        --close-button-hover-bg: #654651;
+        --delete-button-bg: #b3261e;
+        --delete-button-hover-bg: #8f1f19;
+        --object-tools-bg: #4F0C28;
+        --object-tools-hover-bg: #3a091d;
+        --module-header-bg: #4F0C28;
+        --module-header-fg: #ffffff;
+        --nav-hairline-color: #eadde4;
+        --nav-body-bg: #ffffff;
+        --nav-link-fg: #2f2430;
+        --nav-dark-link-fg: #ffffff;
+        --nav-header-color: #ffffff;
+        --selected-bg: #f2e8ed;
+        --selected-row: #fcf8fa;
+    }
+</style>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    html, body {
+        color-scheme: light;
+    }
+
+    body.login {
+        background: linear-gradient(135deg, #FAF9F6 0%, #f2e8ed 100%);
+    }
+
+    #header {
+        background: #4F0C28;
+        color: #ffffff;
+    }
+
+    body,
+    #container,
+    #content,
+    #content-main,
+    .main,
+    .content,
+    .dashboard #content,
+    .app-app1,
+    .app-auth {
+        background: #FAF9F6;
+        color: #2f2430;
+    }
+
+    #branding h1,
+    #branding h1 a:link,
+    #branding h1 a:visited {
+        color: #ffffff;
+    }
+
+    #branding h1 a:hover,
+    #branding h1 a:focus,
+    #site-name,
+    #site-name a,
+    #site-name a:link,
+    #site-name a:visited {
+        color: #ffffff !important;
+    }
+
+    .module h2,
+    .module caption,
+    .inline-group h2 {
+        background: #4F0C28;
+        color: #ffffff;
+    }
+
+    div.breadcrumbs {
+        background: #f2e8ed;
+        color: #4F0C28;
+    }
+
+    div.breadcrumbs a {
+        color: #4F0C28;
+    }
+
+    .module,
+    #changelist,
+    #changelist-form,
+    .results,
+    .dashboard .module,
+    #content-related,
+    #content-related .module,
+    .submit-row,
+    .form-row,
+    .aligned .form-row,
+    .selector,
+    .selector-chosen,
+    .selector-available,
+    .paginator,
+    .actions,
+    .object-tools,
+    .object-tools a,
+    .change-form .form-row,
+    .change-list .filtered .results,
+    .login #content,
+    .login .form-row,
+    .login .submit-row {
+        background: #ffffff;
+        color: #2f2430;
+    }
+
+    .dashboard .module table,
+    .dashboard .module tbody,
+    .dashboard .module tr,
+    .dashboard .module td,
+    .dashboard .module th,
+    #content-related,
+    #content-related td,
+    #content-related th {
+        background: #ffffff;
+        color: #2f2430;
+    }
+
+    .dashboard .module table a,
+    .results table a,
+    .results a,
+    .paginator a,
+    .selector a,
+    .object-tools a,
+    .addlink,
+    .changelink,
+    .deletelink,
+    .viewlink {
+        color: #4F0C28 !important;
+    }
+
+    .dashboard .module table th,
+    .dashboard .module table td,
+    .results th,
+    .results td,
+    #changelist table thead th,
+    #changelist table tbody td,
+    #changelist table tbody th {
+        border-color: #eadde4;
+    }
+
+    .dashboard .module tbody tr:nth-child(even) th,
+    .dashboard .module tbody tr:nth-child(even) td,
+    .results tbody tr:nth-child(even) th,
+    .results tbody tr:nth-child(even) td {
+        background: #fcf8fa;
+    }
+
+    .dashboard .module tbody tr:hover th,
+    .dashboard .module tbody tr:hover td,
+    .results tbody tr:hover th,
+    .results tbody tr:hover td {
+        background: #f7eff3;
+    }
+
+    .button,
+    input[type=submit],
+    input[type=button],
+    .submit-row input,
+    a.button,
+    button {
+        background: #4F0C28;
+        color: #ffffff;
+        border-color: #4F0C28;
+    }
+
+    .button:hover,
+    input[type=submit]:hover,
+    input[type=button]:hover,
+    .submit-row input:hover,
+    a.button:hover,
+    button:hover {
+        background: #3a091d;
+        color: #ffffff;
+    }
+
+    .dashboard .module table th {
+        width: 100%;
+    }
+
+    .dashboard .module table td a,
+    a:link,
+    a:visited {
+        color: #4F0C28;
+    }
+
+    a:hover {
+        color: #3a091d;
+    }
+
+    td, th, label, p, li, dt, dd, caption, .help, .quiet, .small, strong, em, h1, h2, h3, h4, h5, h6, .model-candidature,
+    .model-offre, .model-user, .model-group, .model-candidat, .model-entreprise, .model-utilisateur {
+        color: #2f2430;
+    }
+
+    .dashboard .module table td a,
+    .dashboard .module table th a,
+    .module a,
+    .module a:link,
+    .module a:visited {
+        color: #4F0C28;
+        font-weight: 500;
+    }
+
+    #site-name,
+    #site-name a,
+    #user-tools,
+    #user-tools a {
+        color: #ffffff !important;
+    }
+
+    .theme-toggle,
+    .theme-toggle-container,
+    button.theme-toggle,
+    [data-theme-toggle],
+    .theme-toggle svg {
+        display: none !important;
+    }
+
+    #recent-actions-module h2,
+    #recent-actions-module caption {
+        background: #4F0C28;
+        color: #ffffff;
+    }
+
+    #recent-actions-module,
+    #recent-actions-module ul,
+    #recent-actions-module li {
+        background: #ffffff;
+        color: #2f2430;
+    }
+
+    #recent-actions-module a,
+    #recent-actions-module strong,
+    #recent-actions-module h3 {
+        color: #2f2430 !important;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=email],
+    input[type=number],
+    input[type=url],
+    input[type=tel],
+    input[type=date],
+    input[type=datetime-local],
+    textarea,
+    select {
+        background: #ffffff;
+        color: #2f2430;
+        border: 1px solid #d9c7d0;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #4F0C28;
+        box-shadow: 0 0 0 2px rgba(79, 12, 40, 0.12);
+        outline: none;
+    }
+
+    .selector-filter input {
+        background: #ffffff;
+        color: #2f2430;
+    }
+
+    .messagelist .success {
+        background: #eef7f1;
+        color: #1f5132;
+    }
+
+    .messagelist .warning {
+        background: #fff7e8;
+        color: #7a4b00;
+    }
+
+    .messagelist .error {
+        background: #fdecec;
+        color: #8a1f1f;
+    }
+
+    #nav-sidebar .current-model {
+        background: #f2e8ed;
+    }
+
+    #nav-sidebar .current-app .section:link,
+    #nav-sidebar .current-app .section:visited {
+        color: #4F0C28;
+        font-weight: 600;
+    }
+
+    #nav-sidebar,
+    #nav-filter,
+    #toggle-nav-sidebar,
+    .toggle-nav-sidebar {
+        background: #ffffff;
+        color: #2f2430;
+        border-color: #eadde4;
+    }
+
+    #nav-sidebar a,
+    #nav-sidebar th,
+    #nav-sidebar td {
+        color: #2f2430;
+    }
+
+    #changelist-filter {
+        background: #ffffff;
+        border-left: 1px solid #eadde4;
+    }
+
+    #changelist-filter h2,
+    #changelist-filter h3 {
+        background: #f2e8ed;
+        color: #4F0C28;
+    }
+
+    #changelist-filter a,
+    .paginator,
+    .paginator a {
+        color: #4F0C28;
+    }
+
+    .login #header {
+        box-shadow: none;
+    }
+
+    .login #content-main {
+        background: transparent;
+    }
+</style>
+{% endblock %}

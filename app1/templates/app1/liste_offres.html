@@ -1,0 +1,93 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">Trouver une offre d'emploi</h2>
+        
+        <!-- Formulaire de recherche -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="q" placeholder="Mot clé (ex: Python, Java...)" value="{{ q }}">
+                    </div>
+                    <div class="col-md-2">
+                        <select name="ville" class="form-select">
+                            <option value="">Toutes les villes</option>
+                            {% for v in villes %}
+                                <option value="{{ v }}" {% if ville == v %}selected{% endif %}>{{ v }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="domaine" class="form-select">
+                            <option value="">Tous les domaines</option>
+                            {% for d in domaines %}
+                                <option value="{{ d }}" {% if domaine == d %}selected{% endif %}>{{ d }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="type_contrat" class="form-select">
+                            <option value="">Type de contrat</option>
+                            {% for t in types %}
+                                <option value="{{ t }}" {% if type_contrat == t %}selected{% endif %}>{{ t }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Liste des offres -->
+<div class="row">
+    {% for offre in offres %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 border-start border-primary border-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold mb-0">{{ offre.titre }}</h5>
+                        <span class="badge bg-primary rounded-pill">{{ offre.type_contrat }}</span>
+                    </div>
+                    <h6 class="card-subtitle text-muted mb-3">
+                        <i class="bi bi-building"></i> {{ offre.entreprise.nom_entreprise }} | 
+                        <i class="bi bi-geo-alt"></i> {{ offre.ville }}
+                    </h6>
+                    <p class="card-text text-secondary">{{ offre.description|truncatewords:20 }}</p>
+                    <a href="{% url 'detail_offre' offre.id %}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
+                </div>
+                <div class="card-footer bg-transparent text-muted text-end" style="font-size: 0.85rem;">
+                    Publiée le {{ offre.date_publication|date:"d M Y" }}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">Aucune offre ne correspond à vos critères.</h4>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if offres.has_other_pages %}
+<nav aria-label="Pagination des offres" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if offres.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ offres.previous_page_number }}&q={{ q }}&ville={{ ville }}&domaine={{ domaine }}&type_contrat={{ type_contrat }}">Précédent</a></li>
+        {% endif %}
+        
+        <li class="page-item active"><span class="page-link">Page {{ offres.number }} sur {{ offres.paginator.num_pages }}</span></li>
+        
+        {% if offres.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ offres.next_page_number }}&q={{ q }}&ville={{ ville }}&domaine={{ domaine }}&type_contrat={{ type_contrat }}">Suivant</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

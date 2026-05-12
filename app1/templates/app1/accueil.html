@@ -1,0 +1,53 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">Bienvenue sur notre plateforme de recrutement</h1>
+    <p class="lead">Trouvez le job de vos rêves ou le candidat idéal.</p>
+</div>
+
+<div class="row text-center mb-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3>{{ nb_offres }}</h3>
+                <p>Offres disponibles</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3>{{ nb_entreprises }}</h3>
+                <p>Entreprises</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3>{{ nb_candidats }}</h3>
+                <p>Candidats inscrits</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-4">Offres récentes</h2>
+<div class="row">
+    {% for offre in offres_recentes %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ offre.titre }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ offre.entreprise.nom_entreprise }} - {{ offre.ville }}</h6>
+                    <p class="card-text">{{ offre.description|truncatewords:15 }}</p>
+                    <span class="badge bg-primary">{{ offre.type_contrat }}</span>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Aucune offre disponible pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}
