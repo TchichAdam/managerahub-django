@@ -1,3 +1,4 @@
+# Update for GitHub language detection
 from django.db import models
 
 
