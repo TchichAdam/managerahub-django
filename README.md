@@ -1,5 +1,5 @@
-# Restaurant Management System
+# ManageraHub Recruitment Platform
 
-A Java desktop application designed to efficiently manage restaurant activities, including orders, tables, clients, and menus. It is built using Object-Oriented Programming and an MVC architecture.
+A centralized web recruitment platform connecting candidates and companies. It streamlines the hiring process by enabling businesses to publish job offers and allowing candidates to apply and track their applications.
 
-**Technologies:** Java Swing, MySQL, OOP
+**Technologies:** Django, Python, MySQL
